@@ -62,7 +62,7 @@ Wolfenstein::~Wolfenstein()
 void Wolfenstein::update(float deltaTime)
 {
 	// Escape key stops the Scene
-	if (input()->getKeyUp(KeyCode::Escape)) {
+	if (input()->getKeyUp(KeyCode::EscapeKey)) {
 		this->stop();
 	}
 

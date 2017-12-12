@@ -55,7 +55,7 @@ Scene01::~Scene01()
 
 void Scene01::update(float deltaTime)
 {
-	if (input()->getKeyUp(KeyCode::Escape)) {
+	if (input()->getKeyUp(KeyCode::EscapeKey)) {
 		this->stop();
 	}
 }

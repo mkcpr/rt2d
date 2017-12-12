@@ -84,7 +84,7 @@ enum KeyCode
 	Backslash = 92,
 	RightBracket = 93,
 	GraveAccent = 96,
-	Escape = 256,
+	EscapeKey = 256,
 	Enter = 257,
 	Tab = 258,
 	Backspace = 259,
