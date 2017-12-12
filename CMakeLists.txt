@@ -22,6 +22,8 @@ OPTION(MAKE_OPENAL_TONEGEN "Make OpenAL Tone Generator" OFF)
 
 OPTION(USE_BOX2D "Use Box2D" OFF)
 OPTION(MAKE_BOX2DSTART "Make Box2D/RT2D box2dstart" OFF)
+
+OPTION(MAKE_NETWORK "Make network application" ON)
 ####################################################################
 
 if( CMAKE_BINARY_DIR STREQUAL CMAKE_SOURCE_DIR )
@@ -481,6 +483,41 @@ IF(MAKE_BOX2DSTART AND USE_BOX2D)
 	target_link_libraries (box2dstart
 		${BOX2D_LIB}
 		${ALL_GRAPHICS_LIBS}
+	)
+ENDIF()
+
+####################################################################
+# network                                                            #
+####################################################################
+IF(MAKE_NETWORK)
+	add_executable(network
+		projects/network/main.cpp
+		projects/network/agent.cpp
+		projects/network/agent.h
+		projects/network/NetworkClient.cpp
+		projects/network/NetworkClient.h
+		projects/network/NetworkServer.cpp
+		projects/network/NetworkServer.h
+		projects/network/scene01.cpp
+		projects/network/scene01.h
+		projects/network/SoccerField.cpp
+		projects/network/SoccerField.h
+		
+	)
+	target_link_libraries(network
+		${ALL_GRAPHICS_LIBS}
+	)
+	
+	IF(WIN32)
+	target_link_libraries(network
+		ws2_32
+	)
+	ENDIF(WIN32)
+	
+	# Copy assets to the build directory
+	file(
+		COPY projects/network/assets
+		DESTINATION ${CMAKE_BINARY_DIR}
 	)
 ENDIF()
 
