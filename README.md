@@ -84,9 +84,15 @@ In the powershell, run:
 	cd build
 	cmake -Wno-dev ..
 
-Then doubleclick the `rt2d.sln` file in the `build` directory. Right-click the 'start' directory in Visual Studio and select 'Set as StartUp Project'. Then press ctrl-F5.
+Then doubleclick the `rt2d.sln` file in the `build` directory. Right-click the 'start' directory in Visual Studio and select 'Set as StartUp Project'. Then press CTRL-F5 to build and start without debugging. (Press only F5 if you want to start with debugging)
 
 Make sure that when you add new files within Visual Studio, you move them to the correct directory in `src` and add them to the `CMakeLists.txt` file.
+
+To copy your assets, fonts, shaders, etc. after each new build add the following lines to "Project properties" > "Configurations Properties" > "Build Events" > "Post-Build Event" > "Command Line":
+
+xcopy /y /i "$(OutDir)..\..\rt2d\shaders\"* "$(OutDir)shaders"
+xcopy /y /i "$(OutDir)..\..\rt2d\fonts\"* "$(OutDir)fonts"
+xcopy /y /i "$(OutDir)..\..\projects\$(TargetName)\assets\"* "$(OutDir)assets"
 
 Libraries
 ---------
