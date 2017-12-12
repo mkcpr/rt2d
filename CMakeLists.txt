@@ -49,6 +49,9 @@ endif(UNIX)
 
 
 if(WIN32)
+	# do not create ZERO_CHECK project
+	set(CMAKE_SUPPRESS_REGENERATION true)
+	
 	# suppress pedantic warnings
 	add_definitions( "/W1 /D_CRT_SECURE_NO_WARNINGS /wd4514 /nologo" )
 endif(WIN32)
