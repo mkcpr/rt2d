@@ -25,7 +25,7 @@ Texture::Texture()
 	_depth = 3;
 
 	_gltexture[0] = 0;
-	_pixelbuffer = NULL;
+	_pixelbuffer = nullptr;
 
 	_warrantybit = 1;
 
@@ -137,17 +137,18 @@ GLuint Texture::loadTGAImage(const std::string& filename, int filter, int wrap, 
 }
 
 // http://paulbourke.net/dataformats/tga/
-int Texture::writeTGAImage()
+int Texture::writeTGAImage(std::string filename /* std::string() */)
 {
 	static int id = 0;
-	time_t t = time(NULL);
 
-	std::stringstream filename;
-	filename << "rt2d_" << t << "_" << id << ".tga";
-	id++;
+	if (filename.empty()) {
+		time_t t = time(nullptr);
+		filename = "rt2d_" + std::to_string(t) + "_" + std::to_string(id) + ".tga";
+		id++;
+	}
 
-	FILE *fp = fopen(filename.str().c_str(), "w");
-	if (fp == NULL) {
+	FILE *fp = fopen(filename.c_str(), "wb");
+	if (fp == nullptr) {
 		return 0;
 	}
 

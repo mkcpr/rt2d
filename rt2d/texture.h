@@ -176,8 +176,9 @@ public:
 	/// @return GLuint _texture, 0 if failed
 	GLuint loadTGAImage(const std::string& filename, int filter, int wrap, int dim = 2);
 	/// @brief write _pixelbuffer as image to file (tga only)
+	/// @param filename the filename (optional)
 	/// @return int 0 if failed
-	int writeTGAImage();
+	int writeTGAImage(std::string filename = std::string());
 	/// @brief create a width x height white PixelBuffer & GLpixeldata
 	/// @param width the width of the white Texture
 	/// @param height the height of the white Texture
@@ -207,14 +208,14 @@ private:
 	GLuint _gltexture[1];
 
 	unsigned char _warrantybit; ///< @brief flipped if not a power of 2
-	PixelBuffer* _pixelbuffer; ///< @brief pixelbuffer pointer. Will not be used if NULL.
+	PixelBuffer* _pixelbuffer; ///< @brief pixelbuffer pointer. Will not be used if nullptr.
 
 	/// @brief delete the PixelBuffer of this Entity.
 	/// @return void
 	void deletePixelBuffer() {
-		if (_pixelbuffer != NULL) {
+		if (_pixelbuffer != nullptr) {
 			delete _pixelbuffer;
-			_pixelbuffer = NULL;
+			_pixelbuffer = nullptr;
 		}
 	};
 };

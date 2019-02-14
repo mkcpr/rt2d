@@ -6,12 +6,14 @@ project (rt2d)
 ####################################################################
 OPTION(MAKE_START "Make RT2D start application" ON)
 OPTION(MAKE_DEMO "Make RT2D demo (tests) application" ON)
+OPTION(MAKE_CANVAS_DEMO "Make RT2D Canvas demo (tests) application" ON)
 OPTION(MAKE_FLOCKING "Make flocking application" ON)
 OPTION(MAKE_BASIC3D "Make basic3D application" ON)
 OPTION(MAKE_NOISE "Make Perlin Noise application" ON)
 OPTION(MAKE_GEOMETRIC "Make GeoMetric application" ON)
 OPTION(MAKE_SHADY "Make custom Shader application" ON)
 OPTION(MAKE_WOLFENSTEIN "Make Wolfenstein3D raycasting application" ON)
+OPTION(MAKE_COLLISION "Make Collision application" ON)
 
 OPTION(USE_RS232 "Use RS232 library" OFF)
 OPTION(MAKE_SERIAL "Make serial application" OFF)
@@ -66,7 +68,7 @@ add_subdirectory (external)
 
 include_directories(
 	${CMAKE_SOURCE_DIR}/external/glfw-3.0.3/include/GLFW
-	${CMAKE_SOURCE_DIR}/external/glm-0.9.8.4
+	${CMAKE_SOURCE_DIR}/external/glm-0.9.9.2
 	${CMAKE_SOURCE_DIR}/external/glew-1.9.0/include
 	${CMAKE_SOURCE_DIR}/external
 	${CMAKE_SOURCE_DIR}/rt2d
@@ -194,38 +196,20 @@ IF(MAKE_DEMO)
 		projects/demo/scene06.h
 		projects/demo/scene06a.cpp
 		projects/demo/scene06a.h
-		projects/demo/scene07.cpp
-		projects/demo/scene07.h
 		projects/demo/scene08.cpp
 		projects/demo/scene08.h
 		projects/demo/scene09.cpp
 		projects/demo/scene09.h
 		projects/demo/scene10.cpp
 		projects/demo/scene10.h
-		projects/demo/scene11.cpp
-		projects/demo/scene11.h
-	    projects/demo/scene12.cpp
-	    projects/demo/scene12.h
-	    projects/demo/scene13.cpp
-	    projects/demo/scene13.h
-	    projects/demo/scene14.cpp
-	    projects/demo/scene14.h
-		projects/demo/scene15.cpp
-		projects/demo/scene15.h
-		projects/demo/scene16.cpp
-		projects/demo/scene16.h
-		projects/demo/scene17.cpp
-		projects/demo/scene17.h
 		projects/demo/scene18.cpp
 		projects/demo/scene18.h
-		projects/demo/scene19.cpp
-		projects/demo/scene19.h
-		projects/demo/scene20.cpp
-		projects/demo/scene20.h
 		projects/demo/scene21.cpp
 		projects/demo/scene21.h
 		projects/demo/scene22.cpp
 		projects/demo/scene22.h
+		projects/demo/scene23.cpp
+		projects/demo/scene23.h
 		projects/demo/superscene.cpp
 		projects/demo/superscene.h
 	)
@@ -235,6 +219,48 @@ IF(MAKE_DEMO)
 	# Copy assets to the build directory
 	file(
 		COPY projects/demo/assets
+		DESTINATION ${CMAKE_BINARY_DIR}
+	)
+ENDIF()
+
+
+####################################################################
+# canvasdemo                                                       #
+####################################################################
+IF(MAKE_CANVAS_DEMO)
+	add_executable(canvasdemo
+		projects/canvasdemo/main.cpp
+		projects/canvasdemo/basicentity.cpp
+		projects/canvasdemo/basicentity.h
+		projects/canvasdemo/scene07.cpp
+		projects/canvasdemo/scene07.h
+		projects/canvasdemo/scene11.cpp
+		projects/canvasdemo/scene11.h
+	    projects/canvasdemo/scene12.cpp
+	    projects/canvasdemo/scene12.h
+	    projects/canvasdemo/scene13.cpp
+	    projects/canvasdemo/scene13.h
+	    projects/canvasdemo/scene14.cpp
+	    projects/canvasdemo/scene14.h
+		projects/canvasdemo/scene15.cpp
+		projects/canvasdemo/scene15.h
+		projects/canvasdemo/scene16.cpp
+		projects/canvasdemo/scene16.h
+		projects/canvasdemo/scene17.cpp
+		projects/canvasdemo/scene17.h
+		projects/canvasdemo/scene19.cpp
+		projects/canvasdemo/scene19.h
+		projects/canvasdemo/scene20.cpp
+		projects/canvasdemo/scene20.h
+		projects/canvasdemo/superscene.cpp
+		projects/canvasdemo/superscene.h
+	)
+	target_link_libraries(canvasdemo
+		${ALL_GRAPHICS_LIBS}
+	)
+	# Copy assets to the build directory
+	file(
+		COPY projects/canvasdemo/assets
 		DESTINATION ${CMAKE_BINARY_DIR}
 	)
 ENDIF()
@@ -346,6 +372,22 @@ IF(MAKE_WOLFENSTEIN)
 		projects/wolfenstein/main.cpp
 	)
 	target_link_libraries(wolfenstein
+		${ALL_GRAPHICS_LIBS}
+	)
+ENDIF()
+
+####################################################################
+# collision                                                        #
+####################################################################
+IF(MAKE_COLLISION)
+	add_executable(collision
+		projects/collision/main.cpp
+		projects/collision/shape.cpp
+		projects/collision/shape.h
+		projects/collision/myscene.cpp
+		projects/collision/myscene.h
+	)
+	target_link_libraries(collision
 		${ALL_GRAPHICS_LIBS}
 	)
 ENDIF()
