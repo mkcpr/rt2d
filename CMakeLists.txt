@@ -14,6 +14,8 @@ OPTION(MAKE_GEOMETRIC "Make GeoMetric application" ON)
 OPTION(MAKE_SHADY "Make custom Shader application" ON)
 OPTION(MAKE_WOLFENSTEIN "Make Wolfenstein3D raycasting application" ON)
 OPTION(MAKE_COLLISION "Make Collision application" ON)
+OPTION(MAKE_DEBUGDRAW "Make DebugDraw application" ON)
+OPTION(MAKE_RAYCAST "Make Raycast application" ON)
 
 OPTION(USE_RS232 "Use RS232 library" OFF)
 OPTION(MAKE_SERIAL "Make serial application" OFF)
@@ -62,12 +64,13 @@ endif(WIN32)
 
 
 # Compile external dependencies
+set(OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)
 
 add_subdirectory (external)
 
 include_directories(
-	${CMAKE_SOURCE_DIR}/external/glfw-3.0.3/include/GLFW
+	${CMAKE_SOURCE_DIR}/external/glfw-3.3/include/GLFW
 	${CMAKE_SOURCE_DIR}/external/glm-0.9.9.2
 	${CMAKE_SOURCE_DIR}/external/glew-1.9.0/include
 	${CMAKE_SOURCE_DIR}/external
@@ -76,7 +79,7 @@ include_directories(
 )
 
 link_directories(
-	${CMAKE_SOURCE_DIR}/external/glfw-3.0.3/src
+	${CMAKE_SOURCE_DIR}/external/glfw-3.3/src
 	${CMAKE_SOURCE_DIR}/external/glew-1.9.0
 	${CMAKE_SOURCE_DIR}/external
 	${CMAKE_SOURCE_DIR}/rt2d
@@ -85,7 +88,7 @@ link_directories(
 set(ALL_GRAPHICS_LIBS
 	${OPENGL_LIBRARY}
 	rt2d
-	GLFW_303
+	glfw
 	GLEW_190
 )
 
@@ -388,6 +391,34 @@ IF(MAKE_COLLISION)
 		projects/collision/myscene.h
 	)
 	target_link_libraries(collision
+		${ALL_GRAPHICS_LIBS}
+	)
+ENDIF()
+
+####################################################################
+# DebugDraw                                                        #
+####################################################################
+IF(MAKE_DEBUGDRAW)
+	add_executable(debugdraw
+		projects/debugdraw/main.cpp
+		projects/debugdraw/myscene.cpp
+		projects/debugdraw/myscene.h
+	)
+	target_link_libraries(debugdraw
+		${ALL_GRAPHICS_LIBS}
+	)
+ENDIF()
+
+####################################################################
+# raycast                                                          #
+####################################################################
+IF(MAKE_RAYCAST)
+	add_executable(raycast
+		projects/raycast/main.cpp
+		projects/raycast/myscene.cpp
+		projects/raycast/myscene.h
+	)
+	target_link_libraries(raycast
 		${ALL_GRAPHICS_LIBS}
 	)
 ENDIF()

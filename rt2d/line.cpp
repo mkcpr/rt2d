@@ -18,7 +18,12 @@ Line::Line()
 	_dynamic = false;
 	_closed = false;
 
-	char buf[12]; // should be big enough: "Line99999"
+	// TODO make this more elegant
+	if (_nextGuid > 2000000000) { // buffer overflow protection
+		_nextGuid = 0;
+	}
+
+	char buf[24]; // should be big enough: "Line2147483647"
 	sprintf(buf, "line%d", _guid);
 	std::string linename(buf);
 
@@ -53,14 +58,14 @@ void Line::editPoint(unsigned int id, float x, float y, float z)
 	}
 }
 
-void Line::createCircle(int radius, int segments)
+void Line::createCircle(int radius, int segments, float _x, float _y)
 {
 	int step = 360 / segments;
 
 	for (int i = 0; i < 360; i += step) {
 		float x = cos(i*DEG_TO_RAD)*radius;
 		float y = sin(i*DEG_TO_RAD)*radius;
-		this->addPoint(x, y);
+		this->addPoint(x + _x, y + _y);
 	}
 	this->addPoint(_points[0].x, _points[0].y);
 
