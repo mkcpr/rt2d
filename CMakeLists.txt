@@ -575,7 +575,8 @@ IF(MAKE_NETWORK)
 		projects/network/scene01.h
 		projects/network/SoccerField.cpp
 		projects/network/SoccerField.h
-		
+		projects/network/GUIButton.h
+		projects/network/GUIButton.cpp
 	)
 	target_link_libraries(network
 		${ALL_GRAPHICS_LIBS}

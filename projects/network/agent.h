@@ -11,7 +11,6 @@ public:
 	virtual ~Agent();
 
 	virtual void update(float deltaTime);
-	virtual void render(glm::mat4 modelMatrix, Camera* camera);
 
 	bool paused;
 

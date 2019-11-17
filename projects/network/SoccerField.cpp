@@ -28,9 +28,3 @@ SoccerField::~SoccerField() {
 void SoccerField::update(float deltaTime) {
 	
 }
-
-void SoccerField::render(glm::mat4 modelMatrix, Camera* camera) {
-	
-	//core.getRenderer->getDefaultShader();
-
-}

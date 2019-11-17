@@ -14,7 +14,6 @@ public:
 	virtual ~SoccerField();
 
 	virtual void update(float deltaTime);
-	virtual void render(glm::mat4 modelMatrix, Camera* camera);
 
 
 	Line* Field_SideLines;

@@ -10,22 +10,28 @@ Scene01::Scene01() : Scene() {
 	SoccerField* sf = new SoccerField();
 	this->addChild(sf);
 
-	Agent* a = new Agent();
+	a = new Agent();
 	this->addChild(a);
 
 
+	GUIButton* button1 = new GUIButton("test1");
+	button1->setCallbackFunction(std::bind(&Scene01::clickButtonTest, this));
+	this->addChild(button1);
 }
 
 Scene01::~Scene01() {
 	//
 }
 
+void Scene01::clickButtonTest() {
+	std::cout << "click button test";
+}
+
 void Scene01::update(float deltaTime) {
 	if (input()->getKeyUp(KeyCode::EscapeKey)) {
 		this->stop();
 	}
-}
-
-void Scene01::render(glm::mat4 modelMatrix, Camera* camera) {
-
+	
+	ddClear();
+	ddLine(0, 0, a->position.x, a->position.y, RED);
 }

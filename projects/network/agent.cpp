@@ -31,11 +31,6 @@ void Agent::update(float deltaTime){
 	if (input()->getKeyDown(KeyCode::Space)) {
 		paused = !paused;
 	}
-
-	if (input()->getKeyDown(KeyCode::Alpha1)) {
-		showSeekLine = !showSeekLine;
-		showSeekLine ? seekLine1->color.a = 0 : seekLine1->color.a = 255;
-	}
 	
 	if (!paused){
 		_velocity += steeringForce;
@@ -43,15 +38,14 @@ void Agent::update(float deltaTime){
 		this->position += _velocity * deltaTime;
 		this->rotation.z = this->_velocity.getAngle();
 	}
-}
 
-void Agent::render(glm::mat4 modelMatrix, Camera* camera) {
-
+	//ddClear();
+	//parent()->ddLine(position.x, position.y, position.x + (steeringForce.x * 10), position.y + (steeringForce.y * 10), PINK);
+	//parent()->ddLine(position.x, position.y, position.x + (_velocity.x * 10), position.y + (_velocity.y * 10), GREEN);
+	//ddCircle(0, 0, 16, GREEN);
 }
 
 Vector2 Agent::calculateSteering() {
-
-
 	int mousex = input()->getMouseX();
 	int mousey = input()->getMouseY();
 	Vector2 mousepos = Vector2(mousex, mousey);
@@ -67,26 +61,13 @@ Vector2 Agent::seek(Vector2 targetPosition) {
 	Vector2 desiredVelocity = targetPosition - this->position;
 	desiredVelocity.normalize();
 	desiredVelocity *= _maxSpeed;
-	
-	//###############################################################
-	if (true) {
-		seekLine1->editPoint(0, this->position.x, this->position.y);
-		//seekLine1->editPoint(1, this->position.x + desiredVelocity.x, this->position.y + desiredVelocity.y);
-		seekLine1->editPoint(1, this->position.x, this->position.y);
-	}
-	//###############################################################
-	
 	desiredVelocity -= this->_velocity;
 	
 	//###############################################################
 	if (true) {
-		seekLine1->editPoint(2, this->position.x, this->position.y);
-		seekLine1->editPoint(3, this->position.x + desiredVelocity.x, this->position.y + desiredVelocity.y);
-		this->addLine(seekLine1);
+		parent()->ddLine(position.x, position.y, position.x + desiredVelocity.x, position.y + desiredVelocity.y, GREEN);
 	}
 	//###############################################################
-
-	//std::string bla = 'ddd';
 
 	return (desiredVelocity);
 }
@@ -101,21 +82,11 @@ Vector2 Agent::flee(Vector2 targetPosition) {
 	desiredVelocity.normalize();
 	desiredVelocity *= _maxSpeed;
 
-	//###############################################################
-	if (true) {
-		seekLine1->editPoint(0, this->position.x, this->position.y);
-		//seekLine1->editPoint(1, this->position.x + desiredVelocity.x, this->position.y + desiredVelocity.y);
-		seekLine1->editPoint(1, this->position.x, this->position.y);
-	}
-	//###############################################################
-
 	desiredVelocity -= this->_velocity;
 
 	//###############################################################
 	if (true) {
-		seekLine1->editPoint(2, this->position.x, this->position.y);
-		seekLine1->editPoint(3, this->position.x + desiredVelocity.x, this->position.y + desiredVelocity.y);
-		this->addLine(seekLine1);
+		parent()->ddLine(position.x, position.y, position.x + desiredVelocity.x, position.y + desiredVelocity.y, GREEN);
 	}
 	//###############################################################
 
@@ -140,21 +111,11 @@ Vector2 Agent::arrive(Vector2 targetPosition) {
 		//desiredVelocity.normalize();
 		//desiredVelocity *= speed;
 
-		//###############################################################
-		if (true) {
-			seekLine1->editPoint(0, this->position.x, this->position.y);
-			//seekLine1->editPoint(1, this->position.x + desiredVelocity.x, this->position.y + desiredVelocity.y);
-			seekLine1->editPoint(1, this->position.x, this->position.y);
-		}
-		//###############################################################
-
 		desiredVelocity -= this->_velocity;
 
 		//###############################################################
 		if (true) {
-			seekLine1->editPoint(2, this->position.x, this->position.y);
-			seekLine1->editPoint(3, this->position.x + desiredVelocity.x, this->position.y + desiredVelocity.y);
-			this->addLine(seekLine1);
+			parent()->ddLine(position.x, position.y, position.x + desiredVelocity.x, position.y + desiredVelocity.y, GREEN);
 		}
 		//###############################################################
 

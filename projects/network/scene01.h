@@ -13,6 +13,8 @@
 
 #include "SoccerField.h"
 
+#include "GUIButton.h"
+
 class Scene01 : public Scene
 {
 public:
@@ -20,10 +22,11 @@ public:
 	virtual ~Scene01();
 
 	virtual void update(float deltaTime);
-	virtual void render(glm::mat4 modelMatrix, Camera* camera);
+
+	void clickButtonTest();
 
 private:
-	//
+	Agent* a;
 };
 
 #endif /* SCENE01_H */
