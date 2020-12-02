@@ -167,6 +167,14 @@ IF(MAKE_START)
 	target_link_libraries(start
 		${ALL_GRAPHICS_LIBS}
 	)
+	
+	# Set project 'Start' as default startup project in Visual Studio
+	if(${CMAKE_VERSION} VERSION_GREATER "3.6.0")
+		set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECTNAME})
+	else()
+		message("Current CMake version: ${CMAKE_VERSION} Please consider to upgrade CMake")
+	endif()
+	
 	# Copy assets to the build directory
 	file(
 		COPY start/assets
