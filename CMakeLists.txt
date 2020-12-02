@@ -144,14 +144,17 @@ add_library(rt2d
 	rt2d/util.h
 	rt2d/vectorx.h
 )
-file(
-	COPY ${CMAKE_SOURCE_DIR}/rt2d/shaders
-	DESTINATION ${CMAKE_BINARY_DIR}
-)
-file(
-	COPY ${CMAKE_SOURCE_DIR}/rt2d/fonts
-	DESTINATION ${CMAKE_BINARY_DIR}
-)
+
+IF(!WIN32)
+	file(
+		COPY ${CMAKE_SOURCE_DIR}/rt2d/shaders
+		DESTINATION ${CMAKE_BINARY_DIR}
+	)
+	file(
+		COPY ${CMAKE_SOURCE_DIR}/rt2d/fonts
+		DESTINATION ${CMAKE_BINARY_DIR}
+	)
+ENDIF()
 
 ####################################################################
 # start                                                            #
@@ -179,11 +182,33 @@ IF(MAKE_START)
 		message("Current CMake version: ${CMAKE_VERSION} Please consider to upgrade CMake")
 	endif()
 	
+	
 	# Copy assets to the build directory
-	file(
-		COPY start/assets
-		DESTINATION ${CMAKE_BINARY_DIR}
-	)
+	IF(WIN32)
+		# Add post-build-event in Visual Studio to copy assets to the build directories (Debug / Release)
+		add_custom_command(
+			TARGET ${PROJECTNAME}
+			POST_BUILD
+			
+			COMMAND xcopy /Y/I \"${CMAKE_SOURCE_DIR}\\start\\assets\\\"* \"$(OutDir)assets\\\"*
+			COMMAND xcopy /Y/I \"${CMAKE_SOURCE_DIR}\\rt2d\\shaders\\\"* \"$(OutDir)shaders\\\"*
+			COMMAND xcopy /Y/I \"${CMAKE_SOURCE_DIR}\\rt2d\\fonts\\\"* \"$(OutDir)fonts\\\"*
+			COMMENT "Copy assets to the build directory"
+		)
+		
+		#Set correct working directory in Visual Studio
+		if(${CMAKE_VERSION} VERSION_GREATER "3.8.0")
+			set_property(TARGET ${PROJECTNAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "$(OutDir)")
+		else()
+			message("Current CMake version: ${CMAKE_VERSION} Please consider to upgrade CMake")
+		endif()
+	ELSE()
+		file(
+			COPY start/assets
+			DESTINATION ${CMAKE_BINARY_DIR}
+		)
+	ENDIF()
+	
 ENDIF()
 
 ####################################################################
