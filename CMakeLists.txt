@@ -157,14 +157,18 @@ file(
 # start                                                            #
 ####################################################################
 IF(MAKE_START)
-	add_executable(start
+	#ProjectName
+	set(PROJECTNAME start)
+	message("Making project: ${PROJECTNAME}")
+	
+	add_executable(${PROJECTNAME}
 		start/main.cpp
 		start/myentity.cpp
 		start/myentity.h
 		start/myscene.cpp
 		start/myscene.h
 	)
-	target_link_libraries(start
+	target_link_libraries(${PROJECTNAME}
 		${ALL_GRAPHICS_LIBS}
 	)
 	
