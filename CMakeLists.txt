@@ -79,12 +79,9 @@ include_directories(
 	${CMAKE_SOURCE_DIR}/.
 )
 
-link_directories(
-	${CMAKE_SOURCE_DIR}/external/glfw-3.3/src
-	${CMAKE_SOURCE_DIR}/external/glew-1.9.0
-	${CMAKE_SOURCE_DIR}/external
-	${CMAKE_SOURCE_DIR}/rt2d
-)
+#not needed for the libs in Visual Studio,... check for Unix compile...
+#link_directories(	
+#)
 
 set(ALL_GRAPHICS_LIBS
 	${OPENGL_LIBRARY}
