@@ -167,6 +167,8 @@ IF(MAKE_START)
 		start/myentity.h
 		start/myscene.cpp
 		start/myscene.h
+		start/ImageButton.cpp
+		start/ImageButton.h
 	)
 	target_link_libraries(${PROJECTNAME}
 		${ALL_GRAPHICS_LIBS}

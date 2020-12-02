@@ -13,6 +13,8 @@
 
 #include "myentity.h"
 
+#include "ImageButton.h"
+
 /// @brief The MyScene class is the Scene implementation.
 class MyScene : public Scene
 {
@@ -32,6 +34,9 @@ private:
 	MyEntity* myentity;
 	/// @brief a Timer to rotate the color every n seconds
 	Timer t;
+
+	ImageButton* testButton;
+	void clickButtonTest();
 };
 
 #endif /* SCENE00_H */

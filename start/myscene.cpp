@@ -22,6 +22,12 @@ MyScene::MyScene() : Scene()
 	// create the scene 'tree'
 	// add myentity to this Scene as a child.
 	this->addChild(myentity);
+
+
+	testButton = new ImageButton("Start server");
+	this->addChild(testButton);
+	testButton->position = Point2(12, 12);
+	testButton->setCallbackFunction(std::bind(&MyScene::clickButtonTest, this));
 }
 
 
@@ -32,6 +38,10 @@ MyScene::~MyScene()
 
 	// delete myentity from the heap (there was a 'new' in the constructor)
 	delete myentity;
+}
+
+void MyScene::clickButtonTest() {
+	std::cout << "click button test \n";
 }
 
 void MyScene::update(float deltaTime)
