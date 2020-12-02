@@ -10,8 +10,8 @@ Compiling (Windows)
 - Make sure both Perl and NASM are in your %PATH%
 
 - Use Visual Studio Developer Command Prompt and execute the following:
-	perl Configure VC-WIN32
-	nmake
+	- perl Configure VC-WIN32
+	- nmake
 
 - copy 'include' dir to 'external/openssl'
-- copy 'libcrypto_static.lib' and 'libssl_static.lib' to 'external/lib' (and remove the '_static' postfix)
+- copy 'libcrypto_static.lib' and 'libssl_static.lib' to 'external/openssl/lib' (and remove the '_static' postfix)
