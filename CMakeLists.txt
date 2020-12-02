@@ -16,6 +16,7 @@ OPTION(MAKE_WOLFENSTEIN "Make Wolfenstein3D raycasting application" ON)
 OPTION(MAKE_COLLISION "Make Collision application" ON)
 OPTION(MAKE_DEBUGDRAW "Make DebugDraw application" ON)
 OPTION(MAKE_RAYCAST "Make Raycast application" ON)
+OPTION(MAKE_MATRIXPIXEL "Make MatrixPixel application" ON)
 
 OPTION(USE_RS232 "Use RS232 library" OFF)
 OPTION(MAKE_SERIAL "Make serial application" OFF)
@@ -419,6 +420,24 @@ IF(MAKE_RAYCAST)
 		projects/raycast/myscene.h
 	)
 	target_link_libraries(raycast
+		${ALL_GRAPHICS_LIBS}
+	)
+ENDIF()
+
+####################################################################
+# matrixpixel                                                      #
+####################################################################
+IF(MAKE_MATRIXPIXEL)
+	add_executable(matrixpixel
+        projects/matrixpixel/math/matrix4.h
+        projects/matrixpixel/math/matrix4.cpp
+        projects/matrixpixel/math/vector4.h
+        projects/matrixpixel/math/vector4.cpp
+		projects/matrixpixel/main.cpp
+		projects/matrixpixel/scene01.cpp
+		projects/matrixpixel/scene01.h
+	)
+	target_link_libraries(matrixpixel
 		${ALL_GRAPHICS_LIBS}
 	)
 ENDIF()
