@@ -28,6 +28,8 @@ OPTION(MAKE_OPENAL_TONEGEN "Make OpenAL Tone Generator" OFF)
 OPTION(USE_BOX2D "Use Box2D" OFF)
 OPTION(MAKE_BOX2DSTART "Make Box2D/RT2D box2dstart" OFF)
 
+OPTION(USE_CURL "Use Curl library" ON)
+
 OPTION(MAKE_NETWORK "Make network application" OFF)
 ####################################################################
 
@@ -154,6 +156,89 @@ IF(!WIN32)
 ENDIF()
 
 ####################################################################
+# CURL                                                             #
+####################################################################
+IF(USE_CURL)
+	# Replace install() to do-nothing macro.
+	# So CURL won't make an install target
+	macro(install)
+	endmacro()
+	
+	# Replace add_custom_target() to do-nothing macro.
+	# So CURL won't make an uninstall target
+	macro(add_custom_target)
+	endmacro()
+	
+	option(BUILD_CURL_EXE OFF)
+	#option(PICKY_COMPILER OFF)
+	option(BUILD_SHARED_LIBS OFF)
+	option(CMAKE_USE_LIBSSH2 OFF)
+	option(BUILD_TESTING OFF)
+	
+	#######################################
+	# SSL SUPPORT                         #
+	#######################################
+	#For Mac and/or Unix?
+	#option(CMAKE_USE_SECTRANSP "enable Apple OS native SSL/TLS" ON)
+	
+	#Warning there's no support for TLS 1.3 with SCHANNEL on Windows 7 or lower (use OpenSSL instead)
+	#option(CMAKE_USE_SCHANNEL "enable Windows native SSL/TLS." ON)
+	
+	option(CMAKE_USE_OPENSSL "enable openssl." ON)
+	set(OPENSSL_ROOT_DIR "${CMAKE_SOURCE_DIR}/external/openssl")
+	
+	#----------------------------------------
+	# HOW TO COMPILE OpenSSL ON WINDOWS:
+	# https://github.com/openssl/openssl
+	#----------------------------------------
+	#Install Perl						(http://strawberryperl.com)
+	#Install Netwide Assembler (NASM)	(https://www.nasm.us)
+	#Make sure both Perl and NASM are on your %PATH%
+	#Use Visual Studio Developer Command Prompt
+	
+	#perl Configure VC-WIN32
+	#nmake
+	
+	#copy 'include' dir to 'external/openssl'
+	#copy 'libcrypto_static.lib' and 'libssl_static.lib' to 'external/lib' (and remove the '_static' postfix)
+	#----------------------------------------
+	#######################################
+	
+	add_subdirectory(external/curl-7.73.0)
+	
+	include_directories(
+		${CMAKE_SOURCE_DIR}/external/curl-7.73.0/include
+	)
+
+	link_directories(
+		${CMAKE_BINARY_DIR}/external/curl-7.73.0/lib
+	)
+	
+	add_definitions(
+		-DCURL_STATICLIB
+	)
+	
+	set(CURL_LIB
+	    Ws2_32
+		Wldap32
+		general libcurl
+		debug libcurl-d
+	)
+	
+	# Restore original install() behavior.
+	macro(install)
+		_install(${ARGN})
+	endmacro()
+	
+	# Restore original add_custom_target() behavior.
+	# Does this also work for add_custom_target? Did not test this
+	macro(add_custom_target)
+		_add_custom_target(${ARGN})
+	endmacro()
+	
+ENDIF()
+
+####################################################################
 # start                                                            #
 ####################################################################
 IF(MAKE_START)
@@ -169,10 +254,16 @@ IF(MAKE_START)
 		start/myscene.h
 		start/ImageButton.cpp
 		start/ImageButton.h
+		start/CurlDemo.hpp
 	)
 	target_link_libraries(${PROJECTNAME}
 		${ALL_GRAPHICS_LIBS}
 	)
+	
+	IF(USE_CURL)
+		target_link_libraries(${PROJECTNAME} ${CURL_LIB})
+	ENDIF()
+	
 	
 	# Set project 'Start' as default startup project in Visual Studio
 	if(${CMAKE_VERSION} VERSION_GREATER "3.6.0")

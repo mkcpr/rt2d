@@ -9,8 +9,14 @@
 
 #include "myscene.h"
 
+#include "CurlDemo.hpp"
+
 MyScene::MyScene() : Scene()
 {
+
+	testCurl();
+
+
 	// start the timer.
 	t.start();
 
